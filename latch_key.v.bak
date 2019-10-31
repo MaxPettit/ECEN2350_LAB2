@@ -1,0 +1,22 @@
+module latch_key(
+		 input [1:0] KEY,
+   		 output      R
+);
+   reg 			     k;
+   
+
+    always @(posedge KEY[1])
+     begin
+	  
+	if(~KEY[1]) begin
+	   k = ~k;
+	   
+	end
+
+     end
+
+   assign  R = k;
+
+endmodule // latch_key
+
+   

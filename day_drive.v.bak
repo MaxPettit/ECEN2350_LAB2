@@ -1,0 +1,50 @@
+module day_drive(
+		 input [4:0] day,
+		 output [7:0] HEX0,
+		 output [7:0] HEX1
+		 );
+
+   reg [3:0] 		      day_l;
+   reg [3:0] 		      day_m;
+   
+
+   hex_driver X0 (
+		   .NUM (day_l),
+		   .HEX(HEX0)
+		   );
+    hex_driver X1 (
+		   .NUM (day_m),
+		    .HEX(HEX1),
+		    .OFF(1'b1)
+		   );
+   
+   always @(day)
+     begin
+	if (day >= 30)
+	  begin
+	     day_l = day - 5'b11111; //30
+	     day_m = 4'h3;
+	  end
+	else if (day >= 20)
+	  begin
+	     day_l = day - 5'b10100; //20
+	     day_m = 4'h2;
+	  end
+	else if (day >= 10)
+	  begin
+	     day_l = day - 5'b01010; //10
+	     day_m = 4'h1;
+	  end
+	else
+	  begin
+	     day_l = day;
+	     day_m = 0;
+	     
+	  end
+	
+	
+     end
+    
+   
+endmodule // day_drive
+

@@ -1,0 +1,40 @@
+`timescale 1 ns / 100 ps
+
+module tb1();
+
+   reg  clock;
+   reg  reset_n;
+   wire out_clk
+   reg [9:0] SW;
+   reg [1:0] KEY;
+   
+   
+
+   clock_div_1hz U1 (
+	             .src_clk(clock),
+		     .reset_n(reset_n),
+		     .out_clk(out_clk)
+  );
+
+   initial
+     begin
+
+	$dumpfile("output.vcd");
+	$dumpvars;
+	$display("Starting simulation");
+
+		clock = 0;
+	reset_n = 0;
+	#10 reset_n = 1;
+
+
+	#100 
+	
+	 $display("Simulation ended.");
+	$finish;
+     end // initial begin
+
+   always
+     #5 clock = ~clock;
+
+endmodule // tb1

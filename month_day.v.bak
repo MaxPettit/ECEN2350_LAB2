@@ -1,0 +1,51 @@
+module month_day(
+		   input [3:0] 	lsd,
+		   input [3:0] 	msd,
+		   input leap_year,
+		   output [4:0] day,
+		   output [3:0] month
+	    );
+
+   wire [7:0] 			count;
+   reg [4:0] 			day_tmp;
+   reg [3:0] 			month_tmp;
+   
+      
+   assign count = {msd, lsd};
+   
+
+   always @(count)
+     begin
+        case(count)
+	  32:
+	    begin
+	       month_tmp <= 2;
+	       day_tmp <= 1;
+	    end
+	  (32 + 28 + leap_year):
+	    begin
+	       month_tmp <= 3;
+	       day_tmp <= 1;
+	    end
+	  (99):
+	    begin
+	       month_tmp <= 0;
+	       day_tmp <= 1;
+	    end
+	  default:
+	    begin
+	       month_tmp <= 0;
+	       day_tmp <= 1;
+	    end
+	endcase // case (count)
+	
+     end
+
+   	assign month = month_tmp;
+	assign day = day_tmp;
+   
+   
+endmodule // month_day
+
+    
+   

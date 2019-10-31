@@ -1,0 +1,90 @@
+module bcd_counter(
+		       input 	    src_clk,
+		       input 	    reset_n,
+		       output [3:0]  msd_out,
+		       output [3:0] lsd_out,
+		       output [5:0] count
+		       );
+    reg [5:0] 			    cnt_tmp;
+	 reg [3:0] 			    msd;
+	 reg [3:0] 			    lsd;
+   
+   always @(posedge src_clk or negedge reset_n)
+     begin
+	if(reset_n == 0)
+	begin
+	 cnt_tmp <= 1;
+	 end
+	else if(cnt_tmp != 99)
+	begin
+	 cnt_tmp <= cnt_tmp + 1;
+	end
+	else
+	  cnt_tmp <= 1;
+     end // always @ (posedge clock or negedge reset_n)
+
+  
+   assign count = cnt_tmp;
+
+   always @(count)
+     begin
+	if (count >= 90)
+	  begin
+	     lsd <= count - 90; //30
+	     msd <= 9;
+	  end
+	else if (count >= 80)
+	  begin
+	     lsd <= count - 80; //30
+	     msd <= 8;
+	  end
+	else if (count >= 70)
+	   begin
+	     lsd <= count - 70; //30
+	     msd <= 7;
+	   end
+	else if (count >= 60)
+	   begin
+	     lsd <= count - 60; //30
+	     msd <= 6;
+	   end
+	else if (count >= 50)
+	   begin
+	     lsd <= count - 50; //30
+	     msd <= 5;
+	   end
+	else if (count >= 40)
+	   begin
+	     lsd <= count - 40; //30
+	     msd <= 4;
+	   end
+	else if (count >= 30)
+	   begin
+	     lsd <= count - 30; //30
+	     msd <= 3;
+	   end
+	else if (count >= 20)
+	   begin
+	     lsd <= count - 20; //30
+	     msd <= 2;
+	   end
+	else if (count >= 10)
+	   begin
+	     lsd <= count - 10; //30
+	     msd <= 1;
+	  end
+	else
+	  begin
+	     lsd <= count;
+	     msd <= 0;
+	     
+	  end
+	
+     end
+assign lsd_out = lsd;
+assign msd_out = msd;
+   
+   
+endmodule // lcd_outer_lsd
+
+	  

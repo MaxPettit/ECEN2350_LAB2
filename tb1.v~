@@ -1,0 +1,53 @@
+`timescale 1 ns / 100 ps
+
+module tb1();
+
+   reg  clock;
+   reg  reset_n;
+   reg [9:0] SW;
+   reg [1:0] KEY;
+   
+   wire [9:0] LED;
+   wire [7:0] HEX0;
+   wire [7:0] HEX1;
+   wire [7:0] HEX2;
+   wire [7:0] HEX3;
+   wire [7:0] HEX4;
+   wire [7:0] HEX5;
+   
+
+   Complete U1 (
+		.ADC_CLK_10(clock),
+		.SW(SW),
+		.KEY(KEY),
+		.LEDR(LED),
+		.HEX0(HEX0),
+		.HEX1(HEX1),
+		.HEX2(HEX2),
+		.HEX3(HEX3),
+		.HEX4(HEX4),
+		.HEX5(HEX5)
+		);
+
+    initial
+     begin
+
+	$dumpfile("output.vcd");
+	$dumpvars;
+	$display("Starting simulation");
+
+		clock = 0;
+	reset_n = 0;
+	#10 reset_n = 1;
+
+
+	#100 
+	
+	 $display("Simulation ended.");
+	$finish;
+     end // initial begin
+
+   always
+     #5 clock = ~clock;
+
+endmodule // tb1

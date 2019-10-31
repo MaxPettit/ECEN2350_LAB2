@@ -1,0 +1,6 @@
+module latch_key(
+		 input [1:0] KEY,
+   
+		 output      R
+);
+   
