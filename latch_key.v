@@ -1,19 +1,12 @@
 module latch_key(
 		 input KEY,
-   		 output      R
+   	 output   R
 );
-   reg 			     k;
+   reg 			     k = 0;
    
 
     always @(negedge KEY)
-     begin
-	  
-	if(~KEY) begin
 	   k = ~k;
-	   
-	end
-
-     end
 
    assign  R = k;
 

@@ -1,87 +1,29 @@
 module bcd_counter(
 		       input 	    src_clk,
 		       input 	    reset_n,
-		       output [3:0]  msd,
-		       output [3:0] lsd,
-		       output [5:0] count
+		       output [3:0] msd_out,
+		       output [7:0] cnt_out,
+		       output [3:0] lsd_out
 		       );
-    reg [3:0] 			    cnt_tmp;
-   
-   always @(posedge src_clk or negedge reset_n)
-     begin
-	if(reset_n == 0)
-	begin
-	 cnt_tmp <= 1;
-	 end
-	else if(lsd_tmp != 99)
-	begin
-	 cnt_tmp <= count + 1;
-	end
-	else
-	  cnt_tmp <= 1;
-     end // always @ (posedge clock or negedge reset_n)
+				 
+	reg [7:0]				cnt_tmp;
 
-  
-   assign count = cnt_tmp;
-
-   always @(count)
-     begin
-	if (count >= 90)
-	  begin
-	     lsd = count - 90 //30
-	     msd = 9;
-	  end
-	else if (day >= 80)
-	  begin
-	     lsd = count - 80 //30
-	     msd = 8;
-	  end
-	else if (day >= 70)
-	   begin
-	     lsd = count - 70 //30
-	     msd = 7;
-	   end
-	else if (day >= 60)
-	   begin
-	     lsd = count - 60 //30
-	     msd = 7;
-	   end
-	else if (day >= 50)
-	   begin
-	     lsd = count - 50 //30
-	     msd = 7;
-	   end
-	else if (day >= 40)
-	   begin
-	     lsd = count - 40 //30
-	     msd = 7;
-	   end
-	else if (day >= 30)
-	   begin
-	     lsd = count - 30 //30
-	     msd = 7;
-	   end
-	else if (day >= 20)
-	   begin
-	     lsd = count - 20 //30
-	     msd = 7;
-	   end
-	else if (day >= 10)
-	   begin
-	     lsd = count - 10 //30
-	     msd = 7;
-	  end
-	else
-	  begin
-	     lsd = count;
-	     msd = 0;
-	     
-	  end
 	
-     end
+	 always @(posedge src_clk or negedge reset_n)
+     begin
+	  
+	if(reset_n == 0)
+	cnt_tmp <= 1;
+	else if(cnt_tmp != 99)
+	  cnt_tmp <= cnt_tmp + 1;
+	else
+	cnt_tmp <= 1;
+   end // always @ (posedge clock or negedge reset_n)
 
+
+   assign lsd_out = cnt_tmp % 10;
+	assign msd_out = cnt_tmp / 10;
+	assign cnt_out = cnt_tmp;
    
    
 endmodule // lcd_outer_lsd
-
-	  

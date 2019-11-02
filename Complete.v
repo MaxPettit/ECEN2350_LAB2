@@ -44,17 +44,14 @@ module Complete(
    wire 		     latch;
    wire 		     ms_off;
 
-   wire [4:0] 		     day;
-
-   wire [3:0] 		     month;
-   wire [7:0] 		     cnt;
+   wire [6:0] 		     cnt;
    
 
    
    
    assign LEDR[1] = out_hz_clk;
    assign LEDR[0] = reset_n;
-   assign count = {msd, lsd};
+   
    //=======================================================
    //  Structural coding
    //=======================================================
@@ -66,33 +63,35 @@ module Complete(
 		 );
    
 
-   latch_key Clk (
+   latch_key LClk (
 		  .KEY (KEY[1]),
 		  .R (clk_sel)
 		  );
    
    
-   
-   
-   clock_div_1hz C1 (
+   clock_div_1hz Clk1 (
 		     .reset_n (reset_n),
 		     .src_clk (ADC_CLK_10),
 		     .out_clk (one_hz_clk)
 		     );
-   clock_div_2hz C2 (
+			  
+			  
+   clock_div_2hz Clk2 (
 		     .reset_n (reset_n),
 		     .src_clk (ADC_CLK_10),
 		     .out_clk (two_hz_clk)
 		     );
-   clock_mux S1 (
+			  
+			  
+   clock_mux ClMx (
 		 .a(one_hz_clk),
 		 .b(two_hz_clk),
 		 .sel(clk_sel),
 		 .out(out_hz_clk)
 		 );
+		 
    
-   
-   bcd_counter U1 (
+   bcd_counter BCD (
 		   .reset_n (reset_n),
 		   .src_clk (out_hz_clk),
 		   .msd_out (msd),
@@ -100,26 +99,14 @@ module Complete(
 		   .lsd_out (lsd)
 		   );
    
-   day_drive D1 (
-		 .day(day),
-		 .HEX0(HEX0),
-		 .HEX1(HEX1)
-		 );
    
-   
-   month_day M1 (
-		 .lsd(lsd),
-		 .msd(msd),
+   month_day MD (
 		 .count(cnt),
 		 .leap_year(SW[9]),
-		 .day(day),
-		 .month(month)
+		 .HEX0(HEX0),
+		 .HEX1(HEX1),
+		 .HEX2(HEX2)
 		 );
-
-   hex_driver X2 (
-		  .NUM(month),
-		  .HEX(HEX2)
-		  );
 
    hex_driver X3 (
 		  .NUM(4'b0000),

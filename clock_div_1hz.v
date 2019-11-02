@@ -4,8 +4,7 @@ module clock_div_1hz(
 		     output out_clk
 );
 
-   parameter divide_by = 5;
-//_000_000;
+   parameter divide_by = 5_000_000;
 	
    reg [23:0] 		    divide_counter = 0;
    reg 			    tmp_clk = 0;

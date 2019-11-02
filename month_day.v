@@ -1,18 +1,20 @@
 module month_day(
-		 input [3:0]  lsd,
-		 input [3:0]  msd,
-		 input [7:0]  count,
+		 input [6:0]  count,
 		 input 	      leap_year,
-		 output [4:0] day,
-		 output [3:0] month
+
+		 output [7:0] HEX0,
+		 output [7:0] HEX1,
+		 output [7:0] HEX2
 		 );
 
    reg [4:0] 		      day_tmp;
    reg [3:0] 		      month_tmp;
-   
+
+   wire [4:0] 		      day;
+   wire [3:0] 		      month;
    
 
-   always @(lsd)
+   always @(count)
      begin
 	
 	if(count >= 91 + leap_year)
@@ -43,6 +45,18 @@ module month_day(
 
    assign month = month_tmp;
    assign day = day_tmp;
+
+    day_drive DD (
+		 .day(day),
+		 .HEX0(HEX0),
+		 .HEX1(HEX1)
+		 );
+
+
+    hex_driver X2 (
+		  .NUM(month),
+		  .HEX(HEX2)
+		  );
    
    
 endmodule // month_day
